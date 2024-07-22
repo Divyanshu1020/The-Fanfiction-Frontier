@@ -6,7 +6,7 @@ interface AuthSlice {
 }
 
 const initialState : AuthSlice = {
-    userStatus: false,
+    userStatus: true,
     userData : null
 }
 
