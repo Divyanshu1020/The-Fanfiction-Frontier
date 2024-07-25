@@ -16,10 +16,14 @@
   }
   main {
     @apply max-w-site-width;
+    /* position: relative; */
     margin: 0 auto;
     padding-top: var(--header-height);
-    height: calc(100vh - var(--header-height));
+    min-height: calc(100vh );
     /* background-color: #ffffff;   */
+  }
+  #root {
+    min-height: calc(100vh);
   }
 }
 @layer components{
@@ -62,6 +66,20 @@
 
 }
 
+
+.tox{
+  border: 0px !important;
+  &::-webkit-scrollbar{
+    display: none;};
+  /* border-top: none !important;
+  border-left: none !important;
+  border-right: none !important; */
+  /* border-radius: 0!important; */
+}
+
+.tox-toolbar--scrolling::-webkit-scrollbar{
+  display: none;
+}
 
 
 body {

@@ -19,23 +19,23 @@ export default forwardRef<HTMLInputElement, InputProps>(
     return (
       
       <div>
-        <div className=" space-y-5">
+        <div className=" ">
           <div className=" w-full">
               {label && (
                   <label
                     htmlFor={id}
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-2xl font-medium text-gray-700"
                   >
                     {label}
                   </label>
               )}
-              <div className="mt-1">
+              <div className="my-2 font-thin">
                   <input
                     type={type}
                     id={id}
                     ref={ref}
                     placeholder={placeholder}
-                    className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md ${className}`}
+                    className={` p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-2xl border-gray-300 rounded-md ${className}`}
                     {...props}
                   />
               </div>

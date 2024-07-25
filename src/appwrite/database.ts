@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-catch */
 import config from "@/config/env.config";
-import { Client, Databases, Query } from "appwrite";
+import { Client, Databases, ID, Models, Query } from "appwrite";
 
 interface Data {
   documentID: string;
@@ -8,8 +8,24 @@ interface Data {
   content: string;
   featuredImage: string;
   status: string;
-  userID: string;
+  userId: string;
 }
+
+export interface Posts extends Models.Document {
+  documentID: string;
+  title: string;
+  featuredImage: string;
+}
+export interface Post extends Models.Document {
+  title?: string;
+  content?:string
+  userId?:string
+  documentID?:string
+  featuredImage?:string
+
+}
+
+ type DocumentList = Models.DocumentList<Posts>;
 
 export class Database {
   client = new Client();
@@ -23,24 +39,25 @@ export class Database {
   }
 
   async createDocument({
-    documentID,
     title,
     content,
     featuredImage,
     status,
-    userID,
+    userId,
+    documentID
   }: Data) {
     try {
       return await this.databases.createDocument(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
-        documentID,
+        ID.unique(),
         {
           title,
           content,
           featuredImage,
           status,
-          userID,
+          userId,
+          documentID
         }
       );
     } catch (error) {
@@ -48,23 +65,24 @@ export class Database {
     }
   }
 
-  async updateDocument({
-    documentID,
+  async updateDocument(appwriteDocumentID : string,{
     title,
     content,
     featuredImage,
     status,
+    documentID
   }: Data){
     try {
-        await this.databases.updateDocument(
+        return await this.databases.updateDocument(
             config.appwriteDatabaseId,
             config.appwriteCollectionId,
-            documentID,
+            appwriteDocumentID,
             {
                 title,
                 content,
                 featuredImage,
                 status,
+                documentID
             }
         )
     } catch (error) {
@@ -86,7 +104,7 @@ export class Database {
     }
   }
 
-  async getOneDocument(documentID: string) {
+  async getOneDocument(documentID: string):Promise<Post | undefined> {
     try {
       return await this.databases.getDocument(
         config.appwriteDatabaseId,
@@ -98,17 +116,23 @@ export class Database {
     }
   }
 
-  async getAllDocuments() {
+  async getAllDocuments(): Promise<DocumentList | undefined> {
     try {
-       await this.databases.listDocuments(
+       return await this.databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
         [
-          Query.equal("status", "published"),
+          Query.equal("status", "active"),
+          Query.select([
+            "documentID", 
+            "title",
+            "userId",
+            "featuredImage",
+            "$id",
+            "$createdAt"
+          ])
         ]
       );
-
-      return true
     } catch (error) {
       console.log("Appwrite service error :: getAllDocuments", error);
     }

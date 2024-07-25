@@ -5,9 +5,11 @@ export default function UserIsLogout() {
     <div className=' h-full flex flex-row items-center'>
       <Button2
         title='Login'
+        navigateTo="/login"
       />
       <Button1
         title={"Create Account"}
+        navigateTo="/signup"
       />
     </div>
   );

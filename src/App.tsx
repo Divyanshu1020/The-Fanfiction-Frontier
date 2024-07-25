@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Outlet } from "react-router-dom";
 import "./App.css";
 import authService from "./appwrite/auth";
-import { login, logout } from "./redux/auth.Slice";
 import Navbar from "./components/navbar/Navbar";
+import { login, logout } from "./redux/auth.Slice";
+import { Models } from "appwrite";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,9 +13,9 @@ function App() {
 
   // useEffect(() => {
   //   authService.getCurrentUser()
-  //   .then((userData) => {
+  //   .then((userData : Models.User<Models.Preferences> | null) => {
   //     if(userData){
-  //       dispatch(login(userData))
+  //       dispatch(login({userData}))
   //     }else{
   //       dispatch(logout())
   //     }
@@ -27,12 +29,9 @@ function App() {
         <main>Loading...</main>
       ) : (
         <>
-          <Navbar/>
+          <Navbar />
           <main>
-            <h1 className="text-3xl from-neutral-600 font-bold underline">
-            
-            </h1>
-            
+            <Outlet />
           </main>
         </>
       )}

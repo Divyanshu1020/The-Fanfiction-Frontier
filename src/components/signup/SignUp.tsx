@@ -9,7 +9,7 @@ type Inputs = {
     email: string
     password: string
 }
-export default function Login() {
+export default function SignUp() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {
@@ -20,7 +20,7 @@ export default function Login() {
       } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async(data) => {
         try {
-            const section = await authService.login(data.email, data.password);
+            const section = await authService.createUser(data.email, data.password);
             if (section) {
                 const user = await authService.getCurrentUser();
                 if(user) {
@@ -69,18 +69,18 @@ export default function Login() {
             }
         />
         
-        {errors.password && <p className=" text-center text-wrap text-xs  text-red-600">{errors.password?.message}</p>}
+            {errors.password && <p className=" text-center text-wrap text-xs  text-red-600">{errors.password?.message}</p>}
         
         <button 
             className="bg-[#3b49df] text-white sm:text-xl p-2 my-2 sm:p-3 rounded-md w-full" 
             disabled={isSubmitting} 
             type="submit">{
-                isSubmitting ? "Submitting..." : "Login"
+                isSubmitting ? "Submitting..." : "Sign Up"
             }</button>
         <div className=" py-2  text-xs  overflow-hidden ">
             {errors.root &&<p className=" text-center text-wrap  text-red-600">{errors.root?.message}</p>}
         </div>
-        <p className=" sm:text-xl">Don't have an account? <a href="/signup" className="text-[#3b49df]">Sign up</a></p>
+        <p className=" sm:text-xl">Already have an account? <a href="/login" className="text-[#3b49df]">Log in</a></p>
     </form>
   )
 }

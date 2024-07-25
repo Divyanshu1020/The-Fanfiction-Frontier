@@ -1,20 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { Models } from 'appwrite';
 
+type AppwriteUser = Models.User<Models.Preferences> ;
 interface AuthSlice {
     userStatus: boolean,
-    userData : object | null
+    userData : AppwriteUser | null
 }
 
 const initialState : AuthSlice = {
     userStatus: true,
-    userData : null
+    userData : null 
 }
 
 export const authSlice = createSlice({
     name: 'Auth',
     initialState,
     reducers:{
-        login : (state, action) => {
+        login : (state, action : PayloadAction<{ userData: AppwriteUser }>) => {
             state.userStatus = true
             state.userData = action.payload.userData
         },
