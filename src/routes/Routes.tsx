@@ -1,6 +1,7 @@
 import App from "@/App";
 import Protected from "@/components/AuthLayout";
 import AddPostPage from "@/page/Addpost.page";
+import EditProfilePage from "@/page/EditProfile.page";
 import Homepage from "@/page/Home.page";
 import ReadpostPage from "@/page/Readpost.page";
 import Signuppage from "@/page/signup.page";
@@ -47,12 +48,22 @@ export default function Routes() {
           ),
         },
         {
-          path: "/post/:documentID/:id",
+          path: "/post/:authorName/:documentID/:id",
           element: <ReadpostPage />,
         },
         {
           path: "/*",
         },
+        {
+          path: "/edit-profile",
+          element : (
+            <Protected authentication={true}>
+              <Suspense fallback={<div>Loading...</div>}>
+                <EditProfilePage/>
+              </Suspense>
+            </Protected>
+          )
+        }
       ],
     },
   ]);

@@ -11,17 +11,17 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   authService.getCurrentUser()
-  //   .then((userData : Models.User<Models.Preferences> | null) => {
-  //     if(userData){
-  //       dispatch(login({userData}))
-  //     }else{
-  //       dispatch(logout())
-  //     }
-  //   })
-  //   .finally(() => setIsLoading(false))
-  // }, [dispatch])
+  useEffect(() => {
+    authService.getCurrentUser()
+    .then((userData : Models.User<Models.Preferences> | null) => {
+      if(userData){
+        dispatch(login({userData}))
+      }else{
+        dispatch(logout())
+      }
+    })
+    .finally(() => setIsLoading(false))
+  }, [dispatch])
 
   return (
     <div className="App">

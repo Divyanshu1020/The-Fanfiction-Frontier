@@ -1,6 +1,7 @@
-import database, { Post } from "@/appwrite/database";
+import database, { Author, Post } from "@/appwrite/database";
 import ReadPostLift from "@/components/readpost/ReadPost.Lift";
 import ReadPostMain from "@/components/readpost/ReadPost.main";
+import ReadPostRight from "@/components/readpost/ReadPost.right";
 import { updatePostData } from "@/redux/post.slice";
 import { RootState } from "@/redux/store";
 
@@ -10,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 export default function ReadpostPage() {
   const [postData, setPostData] = useState<Post | undefined>();
+  // console.log(postData);
   // const { id } = useParams();
   const id = "66a14ed9003535e0bca8";
   //"66a14ed9003535e0bca8"
@@ -17,31 +19,31 @@ export default function ReadpostPage() {
   const dispatch = useDispatch();
 
   const reduxPostData = useSelector((state: RootState) => state.post.postData);
+  console.log("reduxPostData",reduxPostData);
 
   useEffect(() => {
-    if (!reduxPostData || reduxPostData.$id !== id ) {
+    if (!reduxPostData || reduxPostData.$id !== id) {
       if (id) {
         database.getOneDocument("66a14ed9003535e0bca8").then((res) => {
           if (res) {
             setPostData(res);
             dispatch(updatePostData({ postData: res }));
-            console.log(res);
           }
         });
       } else {
         navigate("/");
       }
-    }else{
-      console.log("We have data" ,reduxPostData.$id );
-      setPostData(reduxPostData)
+    } else {
+      console.log("We have data", reduxPostData.$id);
+      setPostData(reduxPostData);
     }
   }, [dispatch, id, navigate, reduxPostData]);
 
   return (
     <div className=" gap-2 sm:gap-3 md:gap-4 p-5 h-full grid grid-cols-1 sm:grid-cols-[4rem_1fr] md:grid-cols-[4rem_7fr_3fr]">
-      <ReadPostLift />
-      <ReadPostMain />
-      <div className=" hidden md:block border   border-emerald-300"></div>
+      <ReadPostLift postData={postData} />
+      <ReadPostMain postData={postData} authorData={postData?.author} />
+      <ReadPostRight authorData={postData?.author} />
     </div>
   );
 }

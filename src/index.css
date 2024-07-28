@@ -40,6 +40,9 @@
       border-color: var(--create-account-btn-border-color);
     }
   }
+  .loading-text{
+    @apply animate-pulse w-full bg-[#c7c7c7] rounded-md;
+  }
 }
 
 :root {

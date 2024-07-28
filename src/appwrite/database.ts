@@ -10,11 +10,19 @@ interface Data {
   status: string;
   userId: string;
 }
-
+export interface Author extends Models.Document {
+  name?:string 
+  $createdAt:string
+}
 export interface Posts extends Models.Document {
   documentID: string;
   title: string;
   featuredImage: string;
+  userId :string
+  likes : number
+  comments : number
+  saves : number
+  author? : Author
 }
 export interface Post extends Models.Document {
   title?: string;
@@ -22,7 +30,7 @@ export interface Post extends Models.Document {
   userId?:string
   documentID?:string
   featuredImage?:string
-
+  author? : Author
 }
 
  type DocumentList = Models.DocumentList<Posts>;
@@ -109,36 +117,42 @@ export class Database {
       return await this.databases.getDocument(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
-        documentID
+        documentID,
       );
     } catch (error) {
       console.log("Appwrite service error :: getOneDocument", error);
     }
   }
 
-  async getAllDocuments(): Promise<DocumentList | undefined> {
+  async getAllDocuments(moreQuery: string[]): Promise<DocumentList | undefined> {
     try {
        return await this.databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
-        [
-          Query.equal("status", "active"),
-          Query.select([
-            "documentID", 
-            "title",
-            "userId",
-            "featuredImage",
-            "$id",
-            "$createdAt"
-          ])
-        ]
+        moreQuery
       );
     } catch (error) {
       console.log("Appwrite service error :: getAllDocuments", error);
     }
   }
 
-
+  async getAuthor(userId : string):Promise<Author | undefined>{
+    try {
+      return await this.databases.getDocument(
+        config.appwriteDatabaseId,
+        config.appwriteAuthorCollectionId,
+        userId,
+        [
+          Query.select([
+            "name",
+            "$createdAt"
+          ])
+        ]
+      );
+    } catch (error) {
+      console.log("Appwrite service error :: getAuthor", error);
+    }
+  }
 }
 
 const database = new Database();
