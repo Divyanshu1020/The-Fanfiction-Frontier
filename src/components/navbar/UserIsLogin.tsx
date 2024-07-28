@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import CreatePost from "../ui/btn/Button1";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/auth.Slice";
+import { RootState } from "@/redux/store";
 // import { RootState } from "@/redux/store";
 export default function UserIsLogin() {
   return (
@@ -31,7 +32,7 @@ const DropdownMenu = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const menuRef = useRef(null);
-  // const userdata = useSelector((state : RootState)=> state.auth.userData)
+  const userdata = useSelector((state : RootState)=> state.auth.userData)
   // console.log(userdata);
 
   const logoutHandler = async() => {
@@ -66,7 +67,7 @@ const DropdownMenu = (): JSX.Element => {
         className="w-8 h-8 flex items-center justify-center bg-slate-200 rounded-full"
         onClick={toggleMenu}
       >
-        D
+        {userdata?.name && userdata.name[0]}
       </button>
       {isOpen && (
         <div className="origin-top-right absolute right-0 mt-5 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">

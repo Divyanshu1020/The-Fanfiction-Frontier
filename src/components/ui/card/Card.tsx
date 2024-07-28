@@ -9,7 +9,6 @@ export default function Card({
   $id,
   title,
   featuredImage,
-  userId,
   documentID,
   $createdAt,
   author
@@ -24,8 +23,8 @@ export default function Card({
             title ? (
               
               <img
-                // src={bucket.getFilePreview(featuredImage)}
-                src="https://cloud.appwrite.io/v1/storage/buckets/6698f44a000cf3a6ffe2/files/66a14ed600399f8b4091/preview?project=6698ee40002445454cd6"
+                src={String(bucket.getFilePreview(featuredImage))}
+                // src="https://cloud.appwrite.io/v1/storage/buckets/6698f44a000cf3a6ffe2/files/66a14ed600399f8b4091/preview?project=6698ee40002445454cd6"
                 className=" max-w-full max-h-full  "
                 alt=""
               />

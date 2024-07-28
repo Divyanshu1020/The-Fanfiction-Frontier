@@ -14,11 +14,14 @@ function App() {
   useEffect(() => {
     authService.getCurrentUser()
     .then((userData : Models.User<Models.Preferences> | null) => {
+      console.log("user data getcurrentuser", userData);
       if(userData){
         dispatch(login({userData}))
       }else{
         dispatch(logout())
       }
+    }).catch(() => {
+      console.log("you are not loged in");
     })
     .finally(() => setIsLoading(false))
   }, [dispatch])

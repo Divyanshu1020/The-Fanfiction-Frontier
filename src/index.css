@@ -20,6 +20,7 @@
     margin: 0 auto;
     padding-top: var(--header-height);
     min-height: calc(100vh );
+    height: 100vh;
     /* background-color: #ffffff;   */
   }
   #root {

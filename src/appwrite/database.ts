@@ -8,7 +8,7 @@ interface Data {
   content: string;
   featuredImage: string;
   status: string;
-  userId: string;
+  author: string;
 }
 export interface Author extends Models.Document {
   name?:string 
@@ -51,7 +51,7 @@ export class Database {
     content,
     featuredImage,
     status,
-    userId,
+    author,
     documentID
   }: Data) {
     try {
@@ -64,7 +64,7 @@ export class Database {
           content,
           featuredImage,
           status,
-          userId,
+          author,
           documentID
         }
       );

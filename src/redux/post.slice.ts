@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Post } from "@/appwrite/database";
+// import { Models } from "appwrite";
 
 interface PostSlice {
-    postData : null | Post
+    postData : null | Post 
 }
 const initialState : PostSlice = {
     postData : null

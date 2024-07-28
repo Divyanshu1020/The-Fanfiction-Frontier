@@ -12,8 +12,8 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function ReadpostPage() {
   const [postData, setPostData] = useState<Post | undefined>();
   // console.log(postData);
-  // const { id } = useParams();
-  const id = "66a14ed9003535e0bca8";
+  const { id } = useParams();
+  // const id = "66a14ed9003535e0bca8";
   //"66a14ed9003535e0bca8"
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export default function ReadpostPage() {
   useEffect(() => {
     if (!reduxPostData || reduxPostData.$id !== id) {
       if (id) {
-        database.getOneDocument("66a14ed9003535e0bca8").then((res) => {
+        database.getOneDocument(id).then((res) => {
           if (res) {
             setPostData(res);
             dispatch(updatePostData({ postData: res }));
@@ -34,7 +34,7 @@ export default function ReadpostPage() {
         navigate("/");
       }
     } else {
-      console.log("We have data", reduxPostData.$id);
+      // console.log("We have data", reduxPostData.$id);
       setPostData(reduxPostData);
     }
   }, [dispatch, id, navigate, reduxPostData]);

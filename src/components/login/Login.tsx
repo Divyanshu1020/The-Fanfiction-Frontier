@@ -22,9 +22,9 @@ export default function Login() {
         try {
             const section = await authService.login(data.email, data.password);
             if (section) {
-                const user = await authService.getCurrentUser();
-                if(user) {
-                    dispatch(login(user))
+                const userData = await authService.getCurrentUser();
+                if(userData) {
+                    dispatch(login({userData}))
                     navigate("/")
                 }
             }
@@ -72,7 +72,7 @@ export default function Login() {
         {errors.password && <p className=" text-center text-wrap text-xs  text-red-600">{errors.password?.message}</p>}
         
         <button 
-            className="bg-[#3b49df] text-white sm:text-xl p-2 my-2 sm:p-3 rounded-md w-full" 
+            className="bg-[#3b49df] disabled:bg-slate-400 text-white sm:text-xl p-2 my-2 sm:p-3 rounded-md w-full" 
             disabled={isSubmitting} 
             type="submit">{
                 isSubmitting ? "Submitting..." : "Login"

@@ -1,3 +1,4 @@
+import bucket from "@/appwrite/bucket";
 import { Author, Post } from "@/appwrite/database";
 import parse from "html-react-parser";
 interface Props {
@@ -10,8 +11,8 @@ export default function ReadPostMain({ postData, authorData }: Props) {
       <div className=" bg-white rounded-md shadow-[0_0_0_1px_#1717170d]">
         <div className=" cursor-pointer overflow-hidden rounded-t-md ">
           {postData?.title ? (<img
-            // src={bucket.getFilePreview(String(postData?.featuredImage))}
-            src="https://cloud.appwrite.io/v1/storage/buckets/6698f44a000cf3a6ffe2/files/66a14ed600399f8b4091/preview?project=6698ee40002445454cd6"
+            src={String(bucket.getFilePreview(String(postData?.featuredImage)))}
+            // src="https://cloud.appwrite.io/v1/storage/buckets/6698f44a000cf3a6ffe2/files/66a14ed600399f8b4091/preview?project=6698ee40002445454cd6"
             className=" max-w-full max-h-full  "
             alt=""
           />):(<div className=" w-full h-[30rem] bg-slate-200 "></div>)}
