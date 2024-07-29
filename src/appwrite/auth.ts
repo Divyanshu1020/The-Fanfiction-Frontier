@@ -17,9 +17,9 @@ export class AuthService {
         return await this.account.createEmailPasswordSession(email, password)
     }
 
-    async createUser(email: string, password: string) {
+    async createUser(email: string, password: string, name: string) {
         try {
-            const user = await this.account.create(ID.unique(), email, password)
+            const user = await this.account.create(ID.unique(), email, password, name)
             if(user){
                 const session = await this.login(email, password)
                 return session

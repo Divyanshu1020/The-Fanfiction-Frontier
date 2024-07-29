@@ -35,7 +35,8 @@ export default forwardRef<HTMLInputElement, InputProps>(
                     id={id}
                     ref={ref}
                     placeholder={placeholder}
-                    className={` p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-2xl border-gray-300 rounded-md ${className}`}
+                    className={` p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-2xl
+                      border border-gray-300 rounded-md ${className}`}
                     {...props}
                   />
               </div>

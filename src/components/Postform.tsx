@@ -160,7 +160,7 @@ export default function Postform({ post }: { post: Post }) {
           <Input
             type="text"
             placeholder="Here is your title"
-            className=" outline-none  !shadow-none !pl-10 !text-4xl !leading-8 !font-bold"
+            className=" outline-none !border-0 !shadow-none !pl-10 !text-4xl !leading-8 !font-bold"
             {...register("title", {
               required: "Title is required",
             })}
@@ -168,7 +168,7 @@ export default function Postform({ post }: { post: Post }) {
           <Input
             type="text"
             disabled={true}
-            className=" outline-none disabled:bg-transparent  !shadow-none !pl-10 !font-normal !text-sm "
+            className=" outline-none !border-0 disabled:bg-transparent  !shadow-none !pl-10 !font-normal !text-sm "
             {...register("documentID", {
               required: true,
             })}

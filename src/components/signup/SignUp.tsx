@@ -4,8 +4,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Input from "../ui/input/Input";
+import database from "@/appwrite/database";
 
 type Inputs = {
+  name: string;
   email: string;
   password: string;
 };
@@ -20,10 +22,11 @@ export default function SignUp() {
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const session = await authService.createUser(data.email, data.password);
+      const session = await authService.createUser(data.email, data.password, data.name);
       if (session) {
         const userData = await authService.getCurrentUser();
         if (userData) {
+          await database.createUserDocument(userData.$id, {name: data.name, bio: ""});
           dispatch(login({userData}));
           navigate("/");
         }
@@ -37,6 +40,23 @@ export default function SignUp() {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        type="text"
+        label="Name/Username"
+        placeholder="Enter your Name/Username"
+        {...register("name", {
+          required: true,
+          minLength: {
+            value: 3,
+            message:"Name/Username must be at least 3 characters long",
+          },
+        })}
+      />
+      {errors.name && (
+        <p className=" text-center text-wrap text-xs  text-red-600">
+          {errors.name?.message}
+        </p>
+      )}
       <Input
         type="text"
         label="Email"

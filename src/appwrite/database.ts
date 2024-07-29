@@ -2,6 +2,10 @@
 import config from "@/config/env.config";
 import { Client, Databases, ID, Models, Query } from "appwrite";
 
+interface CreateUserDocument {
+  name: string;
+  bio: string;
+}
 interface Data {
   documentID: string;
   title: string;
@@ -11,29 +15,29 @@ interface Data {
   author?: string;
 }
 export interface Author extends Models.Document {
-  name?:string 
-  $createdAt:string
+  name?: string;
+  $createdAt: string;
 }
 export interface Posts extends Models.Document {
   documentID: string;
   title: string;
   featuredImage: string;
-  userId :string
-  likes : number
-  comments : number
-  saves : number
-  author? : Author
+  userId: string;
+  likes: number;
+  comments: number;
+  saves: number;
+  author?: Author;
 }
 export interface Post extends Models.Document {
   title?: string;
-  content?:string
-  userId?:string
-  documentID?:string
-  featuredImage?:string
-  author? : Author
+  content?: string;
+  userId?: string;
+  documentID?: string;
+  featuredImage?: string;
+  author?: Author;
 }
 
- type DocumentList = Models.DocumentList<Posts>;
+type DocumentList = Models.DocumentList<Posts>;
 
 export class Database {
   client = new Client();
@@ -52,7 +56,7 @@ export class Database {
     featuredImage,
     status,
     author,
-    documentID
+    documentID,
   }: Data) {
     try {
       return await this.databases.createDocument(
@@ -65,7 +69,7 @@ export class Database {
           featuredImage,
           status,
           author,
-          documentID
+          documentID,
         }
       );
     } catch (error) {
@@ -73,34 +77,31 @@ export class Database {
     }
   }
 
-  async updateDocument(appwriteDocumentID : string,{
-    title,
-    content,
-    featuredImage,
-    status,
-    documentID
-  }: Data){
+  async updateDocument(
+    appwriteDocumentID: string,
+    { title, content, featuredImage, status, documentID }: Data
+  ) {
     try {
-        return await this.databases.updateDocument(
-            config.appwriteDatabaseId,
-            config.appwriteCollectionId,
-            appwriteDocumentID,
-            {
-                title,
-                content,
-                featuredImage,
-                status,
-                documentID
-            }
-        )
+      return await this.databases.updateDocument(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId,
+        appwriteDocumentID,
+        {
+          title,
+          content,
+          featuredImage,
+          status,
+          documentID,
+        }
+      );
     } catch (error) {
-        console.log("Appwrite service error :: updateDocument", error);
+      console.log("Appwrite service error :: updateDocument", error);
     }
   }
 
   async deleteDocument(documentID: string) {
     try {
-        await this.databases.deleteDocument(
+      await this.databases.deleteDocument(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
         documentID
@@ -112,21 +113,23 @@ export class Database {
     }
   }
 
-  async getOneDocument(documentID: string):Promise<Post | undefined> {
+  async getOneDocument(documentID: string): Promise<Post | undefined> {
     try {
       return await this.databases.getDocument(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
-        documentID,
+        documentID
       );
     } catch (error) {
       console.log("Appwrite service error :: getOneDocument", error);
     }
   }
 
-  async getAllDocuments(moreQuery: string[]): Promise<DocumentList | undefined> {
+  async getAllDocuments(
+    moreQuery: string[]
+  ): Promise<DocumentList | undefined> {
     try {
-       return await this.databases.listDocuments(
+      return await this.databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
         moreQuery
@@ -136,21 +139,33 @@ export class Database {
     }
   }
 
-  async getAuthor(userId : string):Promise<Author | undefined>{
+  async getAuthor(userId: string): Promise<Author | undefined> {
     try {
       return await this.databases.getDocument(
         config.appwriteDatabaseId,
         config.appwriteAuthorCollectionId,
         userId,
-        [
-          Query.select([
-            "name",
-            "$createdAt"
-          ])
-        ]
+        [Query.select(["name", "$createdAt"])]
       );
     } catch (error) {
       console.log("Appwrite service error :: getAuthor", error);
+    }
+  }
+  async createUserDocument(
+    documentID: string,
+    {name, bio}: CreateUserDocument) {
+    try {
+      return await this.databases.createDocument(
+        config.appwriteDatabaseId,
+        config.appwriteAuthorCollectionId,
+        documentID,
+        {
+          name,
+          bio
+        }
+      );
+    } catch (error) {
+      console.log("Appwrite service error :: createDocument", error);
     }
   }
 }
