@@ -8,7 +8,7 @@ interface Data {
   content: string;
   featuredImage: string;
   status: string;
-  author: string;
+  author?: string;
 }
 export interface Author extends Models.Document {
   name?:string 

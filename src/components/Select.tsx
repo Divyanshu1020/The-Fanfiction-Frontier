@@ -17,7 +17,7 @@ const Select = forwardRef<HTMLSelectElement, InputProps>(
         const id = useId();
         return (
             <div className="w-full mt-auto">
-                {label && <label htmlFor={id} className="block text-2xl font-medium text-gray-700">{label}</label>}
+                {label && <label htmlFor={id} className="block text-2xl mb-2 font-medium text-gray-700">{label}</label>}
                 <select
                     id={id}
                     ref={ref}

@@ -22,7 +22,7 @@ interface Post {
   status?: string;
   featuredImage?: string;
   $id?: string;
-  image?: File;
+  // image?: File;
 }
 interface Data {
   content: string;
@@ -32,6 +32,7 @@ interface Data {
   title: string;
 }
 export default function Postform({ post }: { post: Post }) {
+  // console.log(post);
   const [liveViewData, setLiveViewData] = useState({
     documentID: "",
     $id: "",
@@ -44,7 +45,9 @@ export default function Postform({ post }: { post: Post }) {
     setValue,
     control,
     getValues,
-    formState: { isSubmitting, isSubmitSuccessful, isValid },
+    setError,
+    // getFieldState,
+    formState: { isSubmitting, isSubmitSuccessful, errors,  },
   } = useForm({
     defaultValues: {
       title: post?.title || "",
@@ -73,7 +76,8 @@ export default function Postform({ post }: { post: Post }) {
   }, []);
 
   const submit: SubmitHandler<Data> = async (data) => {
-    console.log(data);
+    // console.log(data);
+  
     if (post) {
       const file = data.image[0] ? await bucket.upload(data.image[0]) : null;
       if (file) {
@@ -86,7 +90,7 @@ export default function Postform({ post }: { post: Post }) {
         content: data.content,
         status: data.status,
         featuredImage: file?.$id || post?.featuredImage || "",
-        author: userData?.$id || "",
+        // author: userData?.$id || "",
       });
       if (dbpost) {
         console.log("dbpost after submit", dbpost);
@@ -116,6 +120,8 @@ export default function Postform({ post }: { post: Post }) {
           });
           dispatch(updatePostData({ postData: dbpost }));
         }
+      }else{
+        setError("root", { message: "Please select an image" });
       }
     }
   };
@@ -139,100 +145,105 @@ export default function Postform({ post }: { post: Post }) {
   }, [setValue, slugTransform, watch]);
 
   return (
-    <form
-      className=" w-full lg:flex lg:flex-row md:gap-4 p-2 sm:p-4 md:p-5"
-      onSubmit={handleSubmit(submit)}
-    >
-      <div className=" w-full lg:w-2/3   border-2  pt-6  bg-white rounded-lg">
-        <Input
-          type="text"
-          placeholder="Here is your title"
-          className=" outline-none  !shadow-none !pl-10 !text-4xl !leading-8 !font-bold"
-          {...register("title", {
-            required: true,
-          })}
-        />
-
-        <Input
-          type="text"
-          className=" outline-none  !shadow-none !pl-10 !font-normal !text-sm "
-          {...register("documentID", {
-            required: true,
-          })}
-          onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setValue("documentID", slugTransform(e.currentTarget.value));
-          }}
-        />
-        <RTE
-          control={control}
-          name="content"
-          defaultValue={getValues("content")}
-        />
+    <div className=" w-full lg:flex lg:flex-col">
+      <div className="w-full text-center mt-4 text-red-600 text-xl font-semibold "> 
+        <p>{errors.content?.message}</p>
+        <p>{errors.title?.message}</p>
+        <p>{errors.root?.message}</p>
+        {/* <p>test</p> */}
       </div>
-      <div className=" w-full lg:w-1/3 px2 flex flex-col gap-3 sm:gap-4 md:gap-6 lg:gap-7">
-        <div className="w-full mb-4">
-          <div className=" flex my-3 flex-row items-center justify-between ">
-            <p className="font-bold text-2xl mb-2">Featured Image:</p>
-            <div className=" relative font-medium text-xl">
-              <button
-                disabled={!isSubmitSuccessful}
-                onClick={() => {
-                  liveViewHandle();
-                }}
-                className=" py-2 px-8 lg:px10 cursor-pointer hover:shadow-[0_0_0_1px_black] whitespace-nowrap bg-[#3b49df3e] disabled:text-gray-400 disabled:cursor-not-allowed  rounded-md "
-              >
-                Live
-              </button>
-              <div className={` absolute top-2 right-4 size-2 rounded-full ${isSubmitSuccessful ? "bg-green-500" : "bg-gray-400"}`}></div>
-            </div>
-          </div>
-          <div className="relative bg-[#f9f9f9]  w-full min-h-52 h-full border  rounded-md flex items-center justify-center overflow-hidden">
-            <input
-              type="file"
-              className="cursor-pointer absolute opacity-0 bg-slate-800 h-52 lg:w-full w-80"
-              {...register("image", {
-                required: true,
-              })}
-            />
-            {!imageUrl[0] && !post?.featuredImage && (
-              <div className="flex flex-col items-center">
-                <CiImageOn size={50} />
-                <p className="text-sm text-slate-500">Upload Featured Image</p>
-              </div>
-            )}
-            {imageUrl[0] && (
-              <img
-                className=" lg:w-full h-full w-80 border"
-                src={URL.createObjectURL(imageUrl[0])}
-                alt="Uploaded"
-              />
-            )}
-            {!imageUrl[0] && post?.featuredImage && (
-              <img
-                className=" lg:w-full h-full w-80 border"
-                src={post.featuredImage}
-                alt="Post"
-              />
-            )}
-          </div>
-          {/* <p>{errors.image?.message}</p> */}
+      <form
+        className=" w-full lg:flex lg:flex-row md:gap-4 p-2 sm:p-4 md:p-5"
+        onSubmit={handleSubmit(submit)}
+      >
+        <div className=" w-full lg:w-2/3   border-2  pt-6  bg-white rounded-lg">
+          <Input
+            type="text"
+            placeholder="Here is your title"
+            className=" outline-none  !shadow-none !pl-10 !text-4xl !leading-8 !font-bold"
+            {...register("title", {
+              required: "Title is required",
+            })}
+          />
+          <Input
+            type="text"
+            disabled={true}
+            className=" outline-none disabled:bg-transparent  !shadow-none !pl-10 !font-normal !text-sm "
+            {...register("documentID", {
+              required: true,
+            })}
+            onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setValue("documentID", slugTransform(e.currentTarget.value));
+            }}
+          />
+          <RTE
+            control={control}
+            name="content"
+            defaultValue={getValues("content")}
+          />
         </div>
-
-        <Select
-          options={["active", "inactive"]}
-          label="Status"
-          {...register("status", {
-            required: true,
-          })}
-        />
-        <button
-          className="bg-[#3b49df] disabled:bg-slate-400 text-white sm:text-xl p-2 my-2 sm:p-3 rounded-md w-full"
-          disabled={isSubmitting || !isValid || isSubmitSuccessful}
-          type="submit"
-        >
-          {post ? "Update" : "Create"}
-        </button>
-      </div>
-    </form>
+        <div className=" w-full lg:w-1/3 px2 flex flex-col gap-3 sm:gap-4 md:gap-6 lg:gap-7">
+          <div className="w-full mb-4">
+            <div className=" flex my-3 flex-row items-center justify-between ">
+              <p className="font-bold text-2xl mb-2">Featured Image:</p>
+              <div className=" relative font-medium text-xl">
+                <button
+                  disabled={!isSubmitSuccessful}
+                  onClick={() => {
+                    liveViewHandle();
+                  }}
+                  className=" py-2 px-8 lg:px10 cursor-pointer hover:shadow-[0_0_0_1px_black] whitespace-nowrap bg-[#3b49df3e] disabled:text-gray-400 disabled:cursor-not-allowed  rounded-md "
+                >
+                  Live
+                </button>
+                <div className={` absolute top-2 right-4 size-2 rounded-full ${isSubmitSuccessful ? "bg-green-500" : "bg-gray-400"}`}></div>
+              </div>
+            </div>
+            <div className="relative bg-[#f9f9f9]  w-full min-h-52 h-full border  rounded-md flex items-center justify-center overflow-hidden">
+              <input
+                type="file"
+                className="cursor-pointer absolute opacity-0 bg-slate-800 h-52 lg:w-full w-80"
+                {...register("image")}
+              />
+              {!imageUrl[0] && !post?.featuredImage && (
+                <div className="flex flex-col items-center">
+                  <CiImageOn size={50} />
+                  <p className="text-sm text-slate-500">Upload Featured Image</p>
+                </div>
+              )}
+              {imageUrl[0] && (
+                <img
+                  className=" lg:w-full h-full w-80 border"
+                  src={URL.createObjectURL(imageUrl[0])}
+                  alt="Uploaded"
+                />
+              )}
+              {!imageUrl[0] && post?.featuredImage && (
+                <img
+                  className=" lg:w-full h-full w-80 border"
+                  src={String(bucket.getFilePreview(String(post?.featuredImage)))}
+                  alt="Post"
+                />
+              )}
+            </div>
+            {/* <p>{errors.image?.message}</p> */}
+          </div>
+          <Select
+            options={["active", "inactive"]}
+            label="Status"
+            {...register("status", {
+              required: true,
+            })}
+          />
+          <button
+            className="bg-[#3b49df] disabled:bg-slate-400 text-white sm:text-xl p-2 my-2 sm:p-3 rounded-md w-full"
+            disabled={isSubmitting || isSubmitSuccessful }
+            type="submit"
+          >
+            {post ? "Update" : "Create"}
+          </button>
+        </div>
+      </form>
+    </div> 
   );
 }

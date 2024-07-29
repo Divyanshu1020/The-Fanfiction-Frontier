@@ -8,8 +8,10 @@ import TopPost from "../TopPost";
 
 interface Porps {
   authorData: Author | undefined;
+  postId: string | undefined;
+  documentID: string | undefined;
 }
-export default function ReadPostRight({ authorData }: Porps) {
+export default function ReadPostRight({ authorData, postId, documentID }: Porps) {
   const [owner, setOwner] = useState(false);
   const currentUserID = useSelector(
     (state: RootState) => state.auth.userData?.$id
@@ -80,7 +82,7 @@ export default function ReadPostRight({ authorData }: Porps) {
 
         {owner ? (
           <div className=" h-14 w-full">
-            <EditPostBtn />
+            <EditPostBtn postId={postId} documentID={documentID} />
           </div>
         ) : null}
 
@@ -131,9 +133,17 @@ function EditProfileBtn({
     </button>
   );
 }
-function EditPostBtn(): JSX.Element {
+function EditPostBtn({
+  postId,
+  documentID,
+}:{
+  postId: string | undefined;
+  documentID: string | undefined;
+}): JSX.Element {
   const navigate = useNavigate();
-  const onclickHandle = () => {};
+  const onclickHandle = () => {
+    navigate(`/edit-post/${documentID}/${postId}`);
+  };
   return (
     <button
       className={` h-full w-full py-2 bg-[#3b49df] text-white rounded-lg hover:bg-transparent disabled:bg-gray-300 disabled:hover:border-0 disabled:hover:text-white hover:text-[#3b49df] hover:border hover:border-[#3b49df]`}

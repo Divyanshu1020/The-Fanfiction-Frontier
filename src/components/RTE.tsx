@@ -11,6 +11,16 @@ export default function RTE({
       <Controller
         name={name || "content"}
         control={control}
+        rules={{
+          required: {
+            value: true,
+            message: "Content is required",
+          },
+          minLength: {
+            value: 20,
+            message: "Content must be at least 20 characters",
+          }
+        }}
         render={({ field: { onChange } }) => (
           <Editor
             initialValue={defaultValue}

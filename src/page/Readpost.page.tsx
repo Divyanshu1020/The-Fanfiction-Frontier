@@ -1,4 +1,4 @@
-import database, { Author, Post } from "@/appwrite/database";
+import database, { Post } from "@/appwrite/database";
 import ReadPostLift from "@/components/readpost/ReadPost.Lift";
 import ReadPostMain from "@/components/readpost/ReadPost.main";
 import ReadPostRight from "@/components/readpost/ReadPost.right";
@@ -12,7 +12,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function ReadpostPage() {
   const [postData, setPostData] = useState<Post | undefined>();
   // console.log(postData);
-  const { id } = useParams();
+  const { id, documentID } = useParams();
   // const id = "66a14ed9003535e0bca8";
   //"66a14ed9003535e0bca8"
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ export default function ReadpostPage() {
     <div className=" gap-2 sm:gap-3 md:gap-4 p-5 h-full grid grid-cols-1 sm:grid-cols-[4rem_1fr] md:grid-cols-[4rem_7fr_3fr]">
       <ReadPostLift postData={postData} />
       <ReadPostMain postData={postData} authorData={postData?.author} />
-      <ReadPostRight authorData={postData?.author} />
+      <ReadPostRight authorData={postData?.author} postId={id} documentID={documentID} />
     </div>
   );
 }
