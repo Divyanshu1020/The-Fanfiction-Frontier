@@ -50,6 +50,10 @@ export default function SignUp() {
             value: 3,
             message:"Name/Username must be at least 3 characters long",
           },
+          maxLength: {
+            value: 30,
+            message:"Name/Username must be at most 20 characters long",
+          },
         })}
       />
       {errors.name && (
@@ -71,6 +75,10 @@ export default function SignUp() {
               );
             },
           },
+          maxLength: {
+            value: 50,
+            message:"Email must be at most 50 characters long",
+          }
         })}
       />
       {errors.email && (
@@ -84,6 +92,10 @@ export default function SignUp() {
         placeholder="Enter your password"
         {...register("password", {
           required: true,
+          maxLength: {
+            value: 50,
+            message:"Password must be at most 50 characters long",
+          }
         })}
       />
 

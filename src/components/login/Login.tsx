@@ -50,6 +50,10 @@ export default function Login() {
                             matchPatern: (value) => {
                                 return /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Please enter a valid email"
                             }
+                        },
+                        maxLength: {
+                            value: 50,
+                            message:"Email must be at most 50 characters long",
                         }
                     }
                 )
@@ -64,6 +68,10 @@ export default function Login() {
                 "password", 
                     { 
                         required: true,
+                        maxLength: {
+                            value: 50,
+                            message:"Password must be at most 50 characters long",
+                        }
                     }
                 )
             }
