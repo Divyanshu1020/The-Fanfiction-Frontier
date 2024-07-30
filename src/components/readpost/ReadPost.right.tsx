@@ -25,12 +25,12 @@ export default function ReadPostRight({ authorData, postId, documentID }: Porps)
     <aside className=" relative  hidden md:block borde cursor-pointer">
       <div className=" w-full h-full flex flex-col gap-4">
         {/* author about section */}
-        <div className="shadow-[0_0_0_1px_#1717170d] flex flex-col gap-4 min-h-9 w-full rounded-lg bg-white p-5">
+        <div className="shadow-[0_0_0_1px_#1717170d] flex flex-col gap-4 min-h-9 w-full rounded-lg bg-white dark:bg-[#171717] p-5">
           <div className=" flex flex-row">
             <div className=" flex flex-row gap-2 items-center">
               <div className=" p-1 cursor-pointer whitespace-nowrap hover:bg-[#3b49df1a]  rounded-full relative ">
                 {authorData ? (
-                  <div className="size-12 flex text-2xl font-samibold items-center justify-center bg-slate-200 rounded-full">
+                  <div className="size-12 flex text-2xl font-samibold items-center justify-center bg-slate-200  dark:bg-[#a3a3a3]  rounded-full">
                     {authorData?.name && authorData.name[0]}
                   </div>
                 ) : (

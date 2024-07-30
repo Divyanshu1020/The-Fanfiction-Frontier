@@ -3,6 +3,22 @@
 @tailwind utilities;
 
 @layer base {
+  
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    @apply bg-[#f5f5f5] dark:bg-[#000000] text-black dark:text-white;
+  }
+  main {
+    @apply max-w-site-width;
+    /* position: relative; */
+    margin: 0 auto;
+    padding-top: var(--header-height);
+    min-height: calc(100vh );
+    height: 100%;
+    /* background-color: #ffffff;   */
+  }
   nav{
     position: fixed;
     top: 0px;
@@ -12,19 +28,8 @@
     z-index: 100;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';;
     box-shadow: 0 1px 1px rgba( 0, 0, 0 , 0.1);
-    background-color: #ffffff; 
-  }
-  main {
-    @apply max-w-site-width;
-    /* position: relative; */
-    margin: 0 auto;
-    padding-top: var(--header-height);
-    min-height: calc(100vh );
-    height: 100vh;
-    /* background-color: #ffffff;   */
-  }
-  #root {
-    min-height: calc(100vh);
+    /* background-color: #ffffff; */
+    @apply bg-white dark:bg-[#171717];
   }
 }
 @layer components{
@@ -48,14 +53,7 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color: #213547;
-  background-color: #f5f5f5;
   box-sizing: border-box;
-
-  /* color-scheme: light dark; */
-  /* color: rgba(255, 255, 255, 0.87);
-  background-color: #242424; */
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -72,6 +70,7 @@
 
 
 .tox{
+  /* background-color: #e70b0b !important; */
   border: 0px !important;
   &::-webkit-scrollbar{
     display: none;};
@@ -84,15 +83,12 @@
 .tox-toolbar--scrolling::-webkit-scrollbar{
   display: none;
 }
+/* .tox-editor-header{
+  background-color: #e70b0b !important;
+} */
 
 
-body {
-  margin: 0;
-  /* display: flex; */
-  /* place-items: center; */
-  min-width: 320px;
-  min-height: 100vh;
-}
+
 
 /* h1 {
   font-size: 3.2em;
@@ -118,15 +114,21 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 } */
 
-/* @media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: dark) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: #fafafa;
+    background-color: #000000;
   }
-  a:hover {
-    color: #747bff;
+  nav{
+    background-color: #171717;
   }
-  button {
-    background-color: #f9f9f9;
+  .tox{
+    background-color: #171717!important;
+    .tox-edit-area__iframe{
+      background-color: #171717!important;
+    }
+  }
+  .tox-editor-header{
+    background-color: #171717!important;
   }
 } */

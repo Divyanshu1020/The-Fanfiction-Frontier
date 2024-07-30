@@ -156,11 +156,11 @@ export default function Postform({ post }: { post: Post }) {
         className=" w-full lg:flex lg:flex-row md:gap-4 p-2 sm:p-4 md:p-5"
         onSubmit={handleSubmit(submit)}
       >
-        <div className=" w-full lg:w-2/3   border-2  pt-6  bg-white rounded-lg">
+        <div className=" w-full lg:w-2/3   border-2  pt-6  bg-white dark:bg-[#171717] rounded-lg">
           <Input
             type="text"
             placeholder="Here is your title"
-            className=" outline-none !border-0 !shadow-none !pl-10 !text-4xl !leading-8 !font-bold"
+            className=" outline-none  !border-0 !shadow-none !pl-10 !text-4xl !leading-8 !font-bold"
             {...register("title", {
               required: "Title is required",
             })}

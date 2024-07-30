@@ -7,7 +7,7 @@ export default function Logo() {
         onClick={() => {navigate("/")}}
         className=" cursor-pointer flex flex-row items-center">
       <div className=" h-9 flex flex-row items-center gap-3">
-        <img className=" h-full" src={logo} alt="" />
+        <img className=" dark:border dark:border-white rounded-md h-full" src={logo} alt="" /> 
         <p className=" text-xl font-medium">Write Blog</p>
       </div>
     </div>

@@ -8,7 +8,7 @@ interface Props {
 export default function ReadPostMain({ postData, authorData }: Props) {
   return (
     <div className=" flex flex-col gap-4">
-      <div className=" bg-white rounded-md shadow-[0_0_0_1px_#1717170d]">
+      <div className=" bg-white dark:bg-[#171717] rounded-md shadow-[0_0_0_1px_#1717170d]">
         <div className=" cursor-pointer overflow-hidden rounded-t-md ">
           {postData?.title ? (<img
             src={String(bucket.getFilePreview(String(postData?.featuredImage)))}

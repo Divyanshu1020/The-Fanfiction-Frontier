@@ -15,7 +15,7 @@ export default function Card({
 }:Posts) {
 
   return (
-    <div className=" bg-white rounded-md shadow-[0_0_0_1px_#1717170d]">
+    <div className=" bg-white dark:bg-[#171717] rounded-md shadow-[0_0_0_1px_#1717170d]">
       <Link to={`/post/${author?.name}}/${documentID}/${$id}`}>
         <div className=" cursor-pointer overflow-hidden rounded-t-md ">
 
@@ -40,7 +40,7 @@ export default function Card({
             <div
               className=" p-1 cursor-pointer whitespace-nowrap hover:bg-[#3b49df1a]  rounded-full relative "
             >
-              {title ? (<div className="w-7 h-7 flex items-center justify-center bg-slate-200 rounded-full">
+              {title ? (<div className="w-7 h-7 flex items-center justify-center bg-slate-200 dark:bg-[#a3a3a3] rounded-full">
                 {author?.name?.slice(0,1)}
               </div>):(<div className="w-7 h-7 rounded-full  loading-text"></div>)}
             </div>

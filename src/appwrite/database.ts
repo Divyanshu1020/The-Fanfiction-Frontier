@@ -168,6 +168,25 @@ export class Database {
       console.log("Appwrite service error :: createDocument", error);
     }
   }
+  async checkLikedOrNot(userId:string, content:string) {
+    try {
+      const response = await this.databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteLikeCollectionId,
+        [
+          Query.equal("userId", userId), 
+          Query.equal("content", content)
+        ]
+      );
+      if(response.documents.length > 0) {
+        return true
+      }else{
+        return false
+      }
+    } catch (error) {
+      console.log("Appwrite service error :: getAllDocuments", error);
+    }
+  }
 }
 
 const database = new Database();

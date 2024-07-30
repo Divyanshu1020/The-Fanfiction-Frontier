@@ -64,8 +64,10 @@ const DropdownMenu = (): JSX.Element => {
     >
       <button
         type="button"
-        className="w-8 h-8 flex items-center justify-center bg-slate-200 rounded-full"
+        className="w-8 h-8 flex items-center justify-center dark:bg-[#a3a3a3] bg-slate-200 rounded-full"
         onClick={toggleMenu}
+        onMouseEnter={()=>{toggleMenu()}}
+        // onMouseLeave={()=>{toggleMenu()}}
       >
         {userdata?.name && userdata.name[0]}
       </button>
@@ -77,7 +79,7 @@ const DropdownMenu = (): JSX.Element => {
             aria-orientation="vertical"
             aria-labelledby="options-menu"
           >
-            <a
+            {/* <a
               href="#"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               role="menuitem"
@@ -97,10 +99,11 @@ const DropdownMenu = (): JSX.Element => {
               role="menuitem"
             >
               License
-            </a>
+            </a> */}
 
             <button
               onClick={()=>{logoutHandler()}}
+              
               className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
               role="menuitem"
             >
