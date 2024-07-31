@@ -1,5 +1,6 @@
+import { CreateNewArticallResponse } from "@/appwrite/appwrite_types";
 import bucket from "@/appwrite/bucket";
-import  { Posts } from "@/appwrite/database";
+import { Models } from "appwrite";
 // import { useEffect, useState } from "react";
 // import { DiVim } from "react-icons/di";
 import { Link } from "react-router-dom";
@@ -12,7 +13,7 @@ export default function Card({
   documentID,
   $createdAt,
   author
-}:Posts) {
+}:(CreateNewArticallResponse & Models.Document)) {
 
   return (
     <div className=" bg-white dark:bg-[#171717] rounded-md shadow-[0_0_0_1px_#1717170d]">

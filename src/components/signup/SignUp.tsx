@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Input from "../ui/input/Input";
-import database from "@/appwrite/database";
+import author from "@/appwrite/collections/author";
 
 type Inputs = {
   name: string;
@@ -26,7 +26,7 @@ export default function SignUp() {
       if (session) {
         const userData = await authService.getCurrentUser();
         if (userData) {
-          await database.createUserDocument(userData.$id, {name: data.name, bio: ""});
+          await author.createAuthor(userData.$id, {name: data.name, bio: ""});
           dispatch(login({userData}));
           navigate("/");
         }

@@ -1,10 +1,10 @@
-import { Author } from "@/appwrite/database";
-// import { useState } from "react";
 import { RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import TopPost from "../TopPost";
+import { Author } from "@/appwrite/appwrite_types";
+import PopUp from "../ui/PopUp";
 
 interface Porps {
   authorData: Author | undefined;
@@ -17,8 +17,11 @@ export default function ReadPostRight({ authorData, postId, documentID }: Porps)
     (state: RootState) => state.auth.userData?.$id
   );
   useEffect(() => {
-    if (authorData?.$id === currentUserID) {
-      setOwner(true);
+    if(currentUserID !== undefined) {
+      
+      if (authorData?.$id === currentUserID) {
+        setOwner(true);
+      }
     }
   }, [authorData, currentUserID]);
   return (
@@ -102,13 +105,24 @@ function FollowBtn({
 }: {
   authorData: Author | undefined;
 }): JSX.Element {
+  const [showPopup, setShowPopup] = useState(false);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
   return (
-    <button
+    <div><button
       className={` h-full w-full py-2 bg-[#3b49df] text-white rounded-lg hover:bg-transparent disabled:bg-gray-300 disabled:hover:border-0 disabled:hover:text-white hover:text-[#3b49df] hover:border hover:border-[#3b49df]`}
       disabled={!authorData}
+      onClick={() => {
+        setShowPopup(true);
+      }}
     >
       <p className=" text-xl font-medium">Follow</p>
     </button>
+    { showPopup && <PopUp closePopup={closePopup}/>}
+    </div>
+
   );
 }
 

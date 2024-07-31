@@ -1,10 +1,11 @@
-import { Query } from "appwrite";
+import { Models, Query } from "appwrite";
 import { useEffect, useState } from "react";
-import database, { Posts } from "../../appwrite/database";
 import Card from "../ui/card/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { updatePosts, newPosts } from "@/redux/posts.Slice";
+import { newPosts } from "@/redux/posts.Slice";
+import articals from "@/appwrite/collections/articals";
+import { CreateNewArticallResponse } from "@/appwrite/appwrite_types";
 // const dameData : Posts = {
 //   documentID: "task-management-app-with-react-and-firebase-as-a-backend",
 //   featuredImage: "66a14ed600399f8b4091",
@@ -16,7 +17,7 @@ import { updatePosts, newPosts } from "@/redux/posts.Slice";
 //   comments : 123
 // };
 export default function HomePosts() {
-  const [posts, setPosts] = useState<Posts[] | undefined>([]);
+  const [posts, setPosts] = useState<(CreateNewArticallResponse & Models.Document)[] | undefined>();
   const postsInRedux = useSelector((state: RootState) => state.posts.posts)
   const dispatch = useDispatch()
   console.log("postsInRedux" , postsInRedux);
@@ -44,13 +45,13 @@ export default function HomePosts() {
         // ]),
       ];
       const getPosts = async () => {
-        await database
-          .getAllDocuments(query)
+        await articals
+          .getAllArticals(query)
           .then((res) => {
             console.log(res?.documents);
-            const posts = res?.documents as Posts[]
+            const posts = res?.documents as (CreateNewArticallResponse & Models.Document)[] 
             dispatch(newPosts(posts));
-            setPosts(res?.documents)
+            setPosts(posts);
           });
       };
       getPosts()

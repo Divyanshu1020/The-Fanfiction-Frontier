@@ -1,16 +1,17 @@
-import database, { Post } from "@/appwrite/database";
+import { CreateNewArticallResponse } from "@/appwrite/appwrite_types";
+import articals from "@/appwrite/collections/articals";
 import ReadPostLift from "@/components/readpost/ReadPost.Lift";
 import ReadPostMain from "@/components/readpost/ReadPost.main";
 import ReadPostRight from "@/components/readpost/ReadPost.right";
 import { updatePostData } from "@/redux/post.slice";
 import { RootState } from "@/redux/store";
-
+import { Models } from "appwrite";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function ReadpostPage() {
-  const [postData, setPostData] = useState<Post | undefined>();
+  const [postData, setPostData] = useState<(CreateNewArticallResponse & Models.Document) | undefined>();
   // console.log(postData);
   const { id, documentID } = useParams();
   // const id = "66a14ed9003535e0bca8";
@@ -24,7 +25,7 @@ export default function ReadpostPage() {
   useEffect(() => {
     if (!reduxPostData || reduxPostData.$id !== id) {
       if (id) {
-        database.getOneDocument(id).then((res) => {
+        articals.getOneArtical(id).then((res) => {
           if (res) {
             setPostData(res);
             dispatch(updatePostData({ postData: res }));

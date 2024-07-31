@@ -1,5 +1,4 @@
 import bucket from "@/appwrite/bucket";
-import database from "@/appwrite/database";
 import { RootState } from "@/redux/store";
 import { useCallback, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -13,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import RTE from "./RTE";
 import Select from "./Select";
 import Input from "./ui/input/Input";
+import articals from "@/appwrite/collections/articals";
 
 type AppwriteFile = Models.File;
 interface Post {
@@ -84,14 +84,17 @@ export default function Postform({ post }: { post: Post }) {
         bucket.delete(String(post?.featuredImage));
       }
 
-      const dbpost = await database.updateDocument(String(post.$id), {
-        documentID: data.documentID,
-        title: data.title,
-        content: data.content,
-        status: data.status,
-        featuredImage: file?.$id || post?.featuredImage || "",
-        // author: userData?.$id || "",
-      });
+      const dbpost = await articals.updateArtical(
+        String(post.$id),
+        {
+          documentID: data.documentID,
+          title: data.title,
+          content: data.content,
+          status: data.status,
+          featuredImage: file?.$id || post?.featuredImage || "",
+        }
+      )
+
       if (dbpost) {
         console.log("dbpost after submit", dbpost);
         setLiveViewData({
@@ -104,7 +107,7 @@ export default function Postform({ post }: { post: Post }) {
       const file: AppwriteFile | null =
         data.image.length > 0 ? await bucket.upload(data.image[0]) : null;
       if (file) {
-        const dbpost = await database.createDocument({
+        const dbpost = await articals.createNewArticall({
           documentID: data.documentID,
           title: data.title,
           content: data.content,
@@ -112,6 +115,7 @@ export default function Postform({ post }: { post: Post }) {
           status: data.status,
           author: userData?.$id || "",
         });
+        
         if (dbpost) {
           console.log("dbpost after submit", dbpost);
           setLiveViewData({

@@ -1,8 +1,9 @@
+import { Author, CreateNewArticallResponse } from "@/appwrite/appwrite_types";
 import bucket from "@/appwrite/bucket";
-import { Author, Post } from "@/appwrite/database";
+import { Models } from "appwrite";
 import parse from "html-react-parser";
 interface Props {
-  postData: Post | undefined;
+  postData: (CreateNewArticallResponse & Models.Document) | undefined;
   authorData: Author | undefined;
 }
 export default function ReadPostMain({ postData, authorData }: Props) {
@@ -51,11 +52,7 @@ export default function ReadPostMain({ postData, authorData }: Props) {
                 <div className=" loading-text h-5 mb-2 sm:h-8 md:h-10 w-full"></div>
               </div>
             )}
-            <div>
-
-
-
-
+            <div className=" flex flex-col gap-2">
               {
                 postData?.title ? parse(String(postData?.content)):(
 
@@ -65,23 +62,10 @@ export default function ReadPostMain({ postData, authorData }: Props) {
                   </div>
                 )
               }
-
-
-
-
-
-
-
-
-
-
-              {}
             </div>
           </div>
         </div>
       </div>
-
-
 
     </div>
   );
