@@ -4,7 +4,7 @@ import { RootState } from "@/redux/store";
 import { Models } from "appwrite";
 import { useEffect, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
-import { MdOutlineBookmarkAdd, MdOutlineModeComment } from "react-icons/md";
+import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { useSelector } from "react-redux";
 import DbLike from "../../appwrite/collections/like";
 import PopUp from "../ui/PopUp";
