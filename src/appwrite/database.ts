@@ -1,43 +1,6 @@
 /* eslint-disable no-useless-catch */
 import config from "@/config/env.config";
-import { Client, Databases, ID, Models, Query } from "appwrite";
-
-interface CreateUserDocument {
-  name: string;
-  bio: string;
-}
-interface Data {
-  documentID: string;
-  title: string;
-  content: string;
-  featuredImage: string;
-  status: string;
-  author?: string;
-}
-export interface Author extends Models.Document {
-  name?: string;
-  $createdAt: string;
-}
-export interface Posts extends Models.Document {
-  documentID: string;
-  title: string;
-  featuredImage: string;
-  userId: string;
-  likes: number;
-  comments: number;
-  saves: number;
-  author?: Author;
-}
-export interface Post extends Models.Document {
-  title?: string;
-  content?: string;
-  userId?: string;
-  documentID?: string;
-  featuredImage?: string;
-  author?: Author;
-}
-
-type DocumentList = Models.DocumentList<Posts>;
+import { Client, Databases, ID } from "appwrite";
 
 export class Database {
   client = new Client();
@@ -50,143 +13,218 @@ export class Database {
     this.databases = new Databases(this.client);
   }
 
-  async createDocument({
-    title,
-    content,
-    featuredImage,
-    status,
-    author,
-    documentID,
-  }: Data) {
+  async createDocument(
+    collectionId: string,
+    uniqueId = ID.unique(),
+    data: object
+  ) {
     try {
       return await this.databases.createDocument(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId,
-        ID.unique(),
-        {
-          title,
-          content,
-          featuredImage,
-          status,
-          author,
-          documentID,
-        }
+        collectionId,
+        uniqueId,
+        data
       );
     } catch (error) {
       console.log("Appwrite service error :: createDocument", error);
     }
   }
 
-  async updateDocument(
-    appwriteDocumentID: string,
-    { title, content, featuredImage, status, documentID }: Data
+  async getAllDocuments(collectionId: string, query: string[] = []) {
+    try {
+      return await this.databases.listDocuments(
+        config.appwriteDatabaseId,
+        collectionId,
+        query
+      );
+    } catch (error) {
+      console.log("Appwrite service error :: getAllDocuments", error);
+    }
+  }
+
+  async getOneDocument(
+    collectionId: string,
+    documentId: string,
+    query: string[] = []
   ) {
-    try {
-      return await this.databases.updateDocument(
-        config.appwriteDatabaseId,
-        config.appwriteCollectionId,
-        appwriteDocumentID,
-        {
-          title,
-          content,
-          featuredImage,
-          status,
-          documentID,
-        }
-      );
-    } catch (error) {
-      console.log("Appwrite service error :: updateDocument", error);
-    }
-  }
-
-  async deleteDocument(documentID: string) {
-    try {
-      await this.databases.deleteDocument(
-        config.appwriteDatabaseId,
-        config.appwriteCollectionId,
-        documentID
-      );
-
-      return true;
-    } catch (error) {
-      console.log("Appwrite service error :: deleteDocument", error);
-    }
-  }
-
-  async getOneDocument(documentID: string): Promise<Post | undefined> {
     try {
       return await this.databases.getDocument(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId,
-        documentID
+        collectionId,
+        documentId,
+        query
       );
     } catch (error) {
       console.log("Appwrite service error :: getOneDocument", error);
     }
   }
 
-  async getAllDocuments(
-    moreQuery: string[]
-  ): Promise<DocumentList | undefined> {
+  async deleteDocument(collectionId: string, documentId: string) {
     try {
-      return await this.databases.listDocuments(
+      await this.databases.deleteDocument(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId,
-        moreQuery
+        collectionId,
+        documentId
       );
+      return true;
     } catch (error) {
-      console.log("Appwrite service error :: getAllDocuments", error);
+      console.log("Appwrite service error :: deleteDocument", error);
+      return false;
     }
   }
 
-  async getAuthor(userId: string): Promise<Author | undefined> {
+  async updateDocument(
+    collectionId: string,
+    documentId: string,
+    dataToUpdate: object
+  ) {
     try {
-      return await this.databases.getDocument(
+      return await this.databases.updateDocument(
         config.appwriteDatabaseId,
-        config.appwriteAuthorCollectionId,
-        userId,
-        [Query.select(["name", "$createdAt"])]
+        collectionId,
+        documentId,
+        dataToUpdate
       );
     } catch (error) {
-      console.log("Appwrite service error :: getAuthor", error);
+      console.log("Appwrite service error :: updateDocument", error);
     }
   }
-  async createUserDocument(
-    documentID: string,
-    {name, bio}: CreateUserDocument) {
-    try {
-      return await this.databases.createDocument(
-        config.appwriteDatabaseId,
-        config.appwriteAuthorCollectionId,
-        documentID,
-        {
-          name,
-          bio
-        }
-      );
-    } catch (error) {
-      console.log("Appwrite service error :: createDocument", error);
-    }
-  }
-  async checkLikedOrNot(userId:string, content:string) {
-    try {
-      const response = await this.databases.listDocuments(
-        config.appwriteDatabaseId,
-        config.appwriteLikeCollectionId,
-        [
-          Query.equal("userId", userId), 
-          Query.equal("content", content)
-        ]
-      );
-      if(response.documents.length > 0) {
-        return true
-      }else{
-        return false
-      }
-    } catch (error) {
-      console.log("Appwrite service error :: getAllDocuments", error);
-    }
-  }
+
+  // async createDocument({
+  //   title,
+  //   content,
+  //   featuredImage,
+  //   status,
+  //   author,
+  //   documentID,
+  // }: Data) {
+  //   try {
+  //     return await this.databases.createDocument(
+  //       config.appwriteDatabaseId,
+  //       config.appwriteArticalCollectionId,
+  //       ID.unique(),
+  //       {
+  //         title,
+  //         content,
+  //         featuredImage,
+  //         status,
+  //         author,
+  //         documentID,
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log("Appwrite service error :: createDocument", error);
+  //   }
+  // }
+
+  // async updateDocument(
+  //   appwriteDocumentID: string,
+  //   { title, content, featuredImage, status, documentID }: Data
+  // ) {
+  //   try {
+  //     return await this.databases.updateDocument(
+  //       config.appwriteDatabaseId,
+  //       config.appwriteArticalCollectionId,
+  //       appwriteDocumentID,
+  //       {
+  //         title,
+  //         content,
+  //         featuredImage,
+  //         status,
+  //         documentID,
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log("Appwrite service error :: updateDocument", error);
+  //   }
+  // }
+
+  // async deleteDocument(documentID: string) {
+  //   try {
+  //     await this.databases.deleteDocument(
+  //       config.appwriteDatabaseId,
+  //       config.appwriteArticalCollectionId,
+  //       documentID
+  //     );
+
+  //     return true;
+  //   } catch (error) {
+  //     console.log("Appwrite service error :: deleteDocument", error);
+  //   }
+  // }
+
+  // async getOneDocument(documentID: string): Promise<Post | undefined> {
+  //   try {
+  //     return await this.databases.getDocument(
+  //       config.appwriteDatabaseId,
+  //       config.appwriteArticalCollectionId,
+  //       documentID
+  //     );
+  //   } catch (error) {
+  //     console.log("Appwrite service error :: getOneDocument", error);
+  //   }
+  // }
+
+  // async getAllDocuments(
+  //   moreQuery: string[]
+  // ): Promise<DocumentList | undefined> {
+  //   try {
+  //     return await this.databases.listDocuments(
+  //       config.appwriteDatabaseId,
+  //       config.appwriteArticalCollectionId,
+  //       moreQuery
+  //     );
+  //   } catch (error) {
+  //     console.log("Appwrite service error :: getAllDocuments", error);
+  //   }
+  // }
+
+  // async getAuthor(userId: string): Promise<Author | undefined> {
+  //   try {
+  //     return await this.databases.getDocument(
+  //       config.appwriteDatabaseId,
+  //       config.appwriteAuthorCollectionId,
+  //       userId,
+  //       [Query.select(["name", "$createdAt"])]
+  //     );
+  //   } catch (error) {
+  //     console.log("Appwrite service error :: getAuthor", error);
+  //   }
+  // }
+  // async createUserDocument(
+  //   documentID: string,
+  //   { name, bio }: CreateUserDocument
+  // ) {
+  //   try {
+  //     return await this.databases.createDocument(
+  //       config.appwriteDatabaseId,
+  //       config.appwriteAuthorCollectionId,
+  //       documentID,
+  //       {
+  //         name,
+  //         bio,
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log("Appwrite service error :: createDocument", error);
+  //   }
+  // }
+  // async checkLikedOrNot(userId: string, content: string) {
+  //   try {
+  //     const response = await this.databases.listDocuments(
+  //       config.appwriteDatabaseId,
+  //       config.appwriteLikeCollectionId,
+  //       [Query.equal("userId", userId), Query.equal("content", content)]
+  //     );
+  //     if (response.documents.length > 0) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     console.log("Appwrite service error :: getAllDocuments", error);
+  //   }
+  // }
 }
 
 const database = new Database();
