@@ -7,17 +7,17 @@ import { newPosts } from "@/redux/posts.Slice";
 import articals from "@/appwrite/collections/articals";
 import { CreateNewArticallResponse } from "@/appwrite/appwrite_types";
 // const dameData : Posts = {
-//   documentID: "task-management-app-with-react-and-firebase-as-a-backend",
-//   featuredImage: "66a14ed600399f8b4091",
-//   userId: "669fbd640012c27a6b23",
-//   title: "Task Management App with React and Firebase as a Backend",
-//   $id: "5e5ea5c16897e",
-//   $createdAt: "2022-08-30T10:58:47.000Z",
+//   documentID: "",
+//   featuredImage: "",
+//   userId: "",
+//   title: "",
+//   $id: "",
+//   $createdAt: "",
 //   likes : 122,
 //   comments : 123
 // };
 export default function HomePosts() {
-  const [posts, setPosts] = useState<(CreateNewArticallResponse & Models.Document)[] | undefined>();
+  const [posts, setPosts] = useState<(CreateNewArticallResponse & Models.Document)[] | undefined>([]);
   const postsInRedux = useSelector((state: RootState) => state.posts.posts)
   const dispatch = useDispatch()
   console.log("postsInRedux" , postsInRedux);
@@ -64,6 +64,8 @@ export default function HomePosts() {
       {posts && posts.length > 0  && posts.map((post) => <Card key={post.$id} {...post} />)}
 
       {posts && posts.length === 0 && Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts}/>)}
+
+      { Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts}/>)}
 
     </div>
   );

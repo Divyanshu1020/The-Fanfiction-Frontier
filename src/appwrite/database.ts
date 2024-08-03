@@ -61,15 +61,13 @@ export class Database {
 
   async deleteDocument(collectionId: string, documentId: string) {
     try {
-      await this.databases.deleteDocument(
+    return await this.databases.deleteDocument(
         config.appwriteDatabaseId,
         collectionId,
         documentId
       );
-      return true;
     } catch (error) {
       console.log("Appwrite service error :: deleteDocument", error);
-      return false;
     }
   }
 

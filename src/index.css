@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  
   body {
     margin: 0;
     min-width: 320px;
@@ -15,120 +14,83 @@
     /* position: relative; */
     margin: 0 auto;
     padding-top: var(--header-height);
-    min-height: calc(100vh );
-    height: 100%;
+    min-height: calc(100vh);
+    height: 100vh;
     /* background-color: #ffffff;   */
   }
-  nav{
+  nav {
     position: fixed;
     top: 0px;
     left: 0px;
     right: 0px;
     height: 56px;
     z-index: 100;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';;
-    box-shadow: 0 1px 1px rgba( 0, 0, 0 , 0.1);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol";
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     /* background-color: #ffffff; */
     @apply bg-white dark:bg-[#171717];
   }
 }
-@layer components{
-  .create-account-btn{
+@layer components {
+  .create-account-btn {
     cursor: pointer;
     background-color: transparent;
     color: var(--create-account-btn-bg);
     border: 1px solid;
     border-radius: 0.375rem;
     border-color: var(--create-account-btn-bg);
-    &:hover{
+    &:hover {
       background-color: var(--create-account-btn-bg);
       color: var(--create-account-btn-text);
       border-color: var(--create-account-btn-border-color);
     }
   }
-  .loading-text{
+  .loading-text {
     @apply animate-pulse w-full bg-[#c7c7c7] rounded-md;
+  }
+  .RTE {
+    p {
+      @apply text-base font-normal;
+    }
+    h2 {
+      @apply text-2xl font-semibold;
+    }
+    h3 {
+      @apply text-xl font-semibold;
+    }
   }
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   box-sizing: border-box;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-
   --header-height: 56px;
 
-  --create-account-btn-bg: #3b49df ;
+  --create-account-btn-bg: #3b49df;
   --create-account-btn-text: #ffffff;
   --create-account-btn-border-color: #2f3ab2;
-
 }
 
-
-.tox{
+.tox {
   /* background-color: #e70b0b !important; */
   border: 0px !important;
-  &::-webkit-scrollbar{
-    display: none;};
+  &::-webkit-scrollbar {
+    display: none;
+  }
   /* border-top: none !important;
   border-left: none !important;
   border-right: none !important; */
   /* border-radius: 0!important; */
 }
 
-.tox-toolbar--scrolling::-webkit-scrollbar{
+.tox-toolbar--scrolling::-webkit-scrollbar {
   display: none;
 }
-/* .tox-editor-header{
-  background-color: #e70b0b !important;
-} */
-
-
-
-
-/* h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-} */
-
-/* button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-} */
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    color: #fafafa;
-    background-color: #000000;
-  }
-  nav{
-    background-color: #171717;
-  }
-  .tox{
-    background-color: #171717!important;
-    .tox-edit-area__iframe{
-      background-color: #171717!important;
-    }
-  }
-  .tox-editor-header{
-    background-color: #171717!important;
-  }
-} */

@@ -75,7 +75,7 @@ export default function ReadPostRight({ authorData, postId, documentID }: Porps)
             <p className=" font-medium uppercase">Joined</p>
             {authorData ? (
               <p className=" font-normal line-clamp-1">
-                {authorData && authorData.$createdAt.slice(0, 10)}
+                {authorData && authorData?.$createdAt?.slice(0, 10)}
               </p>
             ) : (
               <div className=" loading-text h-4 w-20"></div>

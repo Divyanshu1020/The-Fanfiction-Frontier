@@ -36,7 +36,7 @@ export default function ReadPostMain({ postData, authorData }: Props) {
                   <div className=" loading-text h-3 w-44"></div>
                 )}
                 {authorData ? (<div className=" text-xs font-thin">
-                  Posted on {authorData && authorData.$createdAt.slice(0, 10)}
+                  Posted on {authorData && authorData?.$createdAt?.slice(0, 10)}
                 </div>):(
                   <div className=" loading-text h-3 w-44"></div>
                 )}
@@ -52,7 +52,7 @@ export default function ReadPostMain({ postData, authorData }: Props) {
                 <div className=" loading-text h-5 mb-2 sm:h-8 md:h-10 w-full"></div>
               </div>
             )}
-            <div className=" flex flex-col gap-2">
+            <div className="RTE flex flex-col gap-2">
               {
                 postData?.title ? parse(String(postData?.content)):(
 

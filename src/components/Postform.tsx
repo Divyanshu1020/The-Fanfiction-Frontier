@@ -96,7 +96,7 @@ export default function Postform({ post }: { post: Post }) {
       )
 
       if (dbpost) {
-        console.log("dbpost after submit", dbpost);
+        // console.log("dbpost after submit", dbpost);
         setLiveViewData({
           documentID: dbpost.documentID,
           $id: dbpost.$id,
@@ -132,9 +132,9 @@ export default function Postform({ post }: { post: Post }) {
 
   const liveViewHandle = () => {
     if (post) {
-      navigate(`/post/${post.documentID}/${post.$id}`);
+      navigate(`/post/${userData?.name}/${post.documentID}/${post.$id}`);
     } else {
-      navigate(`/post/${liveViewData.documentID}/${liveViewData.$id}`);
+      navigate(`/post/${userData?.name}/${liveViewData.documentID}/${liveViewData.$id}`);
     }
   };
 

@@ -15,7 +15,7 @@ export default function TopPost({ title, topPostsData, authorName }: Props) {
             <div className=" loading-text h-6 "></div>
           )}
         </div>
-        <div className=" h-full">
+        {/* <div className=" h-full">
           {topPostsData &&
             topPostsData.length > 0 &&
             topPostsData.map((data, index) => (
@@ -46,6 +46,12 @@ export default function TopPost({ title, topPostsData, authorName }: Props) {
                 </div>
               </div>
             ))}
+        </div> */}
+
+        <div className=" h-[30rem]">
+          <div className=" h-full p-5 flex flex-col items-center justify-center text-3xl font-bold text-blue-800">
+            <h1>Coming soon</h1>
+          </div>
         </div>
       </div>
     </div>
