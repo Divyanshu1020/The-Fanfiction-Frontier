@@ -4,7 +4,7 @@ import { RootState } from "@/redux/store";
 import { Models } from "appwrite";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
+// import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { useSelector } from "react-redux";
 import DbLike from "../../appwrite/collections/like";
 import PopUp from "../ui/PopUp";
@@ -23,7 +23,7 @@ export default function ReadPostLift({
     isLike: false,
   });
   const [numLikes, setNumLikes] = useState<number>(0);
-  const [userSaveOrNot, setUserSaveOrNot] = useState(false);
+  // const [userSaveOrNot, setUserSaveOrNot] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const dbounceValue = useDebounce(like, 1000);
   const user = useSelector((state: RootState) => state.auth.userData);
@@ -84,18 +84,18 @@ export default function ReadPostLift({
     //     }
     //   },
     // },
-    {
-      Icon: MdOutlineBookmarkAdd,
-      color: `${userSaveOrNot ? "text-blue-500" : "text-gray-500"}`,
-      text: "Share",
-      num: postData?.saves | 0,
-      onclick: () => {
-        if (user === null) {
-          setShowPopup(true);
-        } else {
-        }
-      },
-    },
+    // {
+    //   Icon: MdOutlineBookmarkAdd,
+    //   color: `${userSaveOrNot ? "text-blue-500" : "text-gray-500"}`,
+    //   text: "Share",
+    //   num: postData?.saves | 0,
+    //   onclick: () => {
+    //     if (user === null) {
+    //       setShowPopup(true);
+    //     } else {
+    //     }
+    //   },
+    // },
   ];
 
   useEffect(() => {

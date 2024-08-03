@@ -1,48 +1,57 @@
 import config from "@/config/env.config";
 import { Editor } from "@tinymce/tinymce-react";
-import { useEffect, useState } from "react";
-import { Controller } from "react-hook-form";
+// import { useEffect, useState } from "react";
+import { Controller, Control } from "react-hook-form";
+import { Data } from "./Postform";
 
-export default function RTE({ name = "content", control, defaultValue = "" }) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+export default function RTE({
+  control,
+  defaultValue = "",
+}: {
+  name?: string | undefined;
+  control: Control<Data>;
+  defaultValue?: string;
+}) {
+  // const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    );
-    setIsDarkMode(darkModeMediaQuery.matches);
+  // useEffect(() => {
+  //   const darkModeMediaQuery = window.matchMedia(
+  //     "(prefers-color-scheme: dark)"
+  //   );
+  //   setIsDarkMode(darkModeMediaQuery.matches);
 
-    const darkModeListener = (e) => {
-      setIsDarkMode(e.matches);
-    };
+  //   const darkModeListener = (e) => {
+  //     setIsDarkMode(e.matches);
+  //   };
 
-    darkModeMediaQuery.addEventListener("change", darkModeListener);
+  //   darkModeMediaQuery.addEventListener("change", darkModeListener);
 
-    return () => {
-      darkModeMediaQuery.removeEventListener("change", darkModeListener);
-    };
-  }, []);
+  //   return () => {
+  //     darkModeMediaQuery.removeEventListener("change", darkModeListener);
+  //   };
+  // }, []);
 
-  const contentStyle = `
-    body {
-      background-color: ${isDarkMode ? "#171717" : "#ffffff"};
-      color: ${isDarkMode ? "#ffffff" : "#000000"};
-    }
-    .tox-editor-header{
-      background-color: ${isDarkMode ? "#171717" : "#ffffff"}
-    }
-    a {
-      color: ${isDarkMode ? "#4e9aff" : "#0066cc"};
-    }
-    h1, h2, h3, h4, h5, h6 {
-      color: ${isDarkMode ? "#ffffff" : "#000000"};
-    }
-  `;
+  // const contentStyle = `
+  //   body {
+  //     background-color: ${isDarkMode ? "#171717" : "#ffffff"};
+  //     color: ${isDarkMode ? "#ffffff" : "#000000"};
+  //   }
+  //   .tox-editor-header{
+  //     background-color: ${isDarkMode ? "#171717" : "#ffffff"}
+  //   }
+  //   a {
+  //     color: ${isDarkMode ? "#4e9aff" : "#0066cc"};
+  //   }
+  //   h1, h2, h3, h4, h5, h6 {
+  //     color: ${isDarkMode ? "#ffffff" : "#000000"};
+  //   }
+  // `;
+
 
   return (
-    <div className={`w-full ${isDarkMode ? "dark" : ""}`}>
+    <div className={`w-full `}>
       <Controller
-        name={name || "content"}
+        name='content'
         control={control}
         rules={{
           required: {

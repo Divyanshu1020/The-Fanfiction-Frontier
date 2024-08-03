@@ -1,10 +1,10 @@
 interface Props {
   title: string;
-  topPostsData: [];
+  topPostsData?: [];
   authorName?: string;
 }
 
-export default function TopPost({ title, topPostsData, authorName }: Props) {
+export default function TopPost({ title, authorName }: Props) {
   return (
     <div className="cursor-default sticky top-[calc(56px+1rem)] flex flex-col gap-4 w-full rounded-lg bg-white dark:bg-[#171717] shadow-[0_0_0_1px_#1717170d] dark:shadow-[0_0_0_1px_#ffffff3b] ">
       <div className=" h-full w-full flex flex-col">

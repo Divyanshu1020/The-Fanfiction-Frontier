@@ -1,13 +1,15 @@
-import database, { Posts } from "@/appwrite/database";
+import { CreateNewArticallResponse } from "@/appwrite/appwrite_types";
+import articals from "@/appwrite/collections/articals";
 import Postform from "@/components/Postform";
 import { RootState } from "@/redux/store";
+import { Models } from "appwrite";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 // import { useParams } from "react-router-dom";
 
 export default function EditPostPage() {
-  const [postData , setPostData] = useState<Posts | undefined>()
+  const [postData , setPostData] = useState< (CreateNewArticallResponse & Models.Document) | undefined>()
   const [checking, setChecking] = useState(true);
   const [owner, setOwner] = useState(false);
   const { id } = useParams();
@@ -17,15 +19,15 @@ export default function EditPostPage() {
   useEffect(() => {
     if (postDataRedux) {
       if (postDataRedux.author?.$id === userData?.$id) {
-        setPostData(postDataRedux as Posts);
+        setPostData(postDataRedux);
         setOwner(true);
       }
       setChecking(false);
     }else{
-      database.getOneDocument(String(id))
+     articals.getOneArtical(String(id))
         .then((data) => {
           if(data?.author?.$id === userData?.$id){
-            setPostData(data as Posts);
+            setPostData(data);
             setOwner(true)
           }
           setChecking(false)

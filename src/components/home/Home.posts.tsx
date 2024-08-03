@@ -6,16 +6,7 @@ import { RootState } from "@/redux/store";
 import { newPosts } from "@/redux/posts.Slice";
 import articals from "@/appwrite/collections/articals";
 import { CreateNewArticallResponse } from "@/appwrite/appwrite_types";
-// const dameData : Posts = {
-//   documentID: "",
-//   featuredImage: "",
-//   userId: "",
-//   title: "",
-//   $id: "",
-//   $createdAt: "",
-//   likes : 122,
-//   comments : 123
-// };
+
 export default function HomePosts() {
   const [posts, setPosts] = useState<(CreateNewArticallResponse & Models.Document)[] | undefined>([]);
   const postsInRedux = useSelector((state: RootState) => state.posts.posts)
@@ -63,9 +54,9 @@ export default function HomePosts() {
       {/* <Card {...dameData} /> */}
       {posts && posts.length > 0  && posts.map((post) => <Card key={post.$id} {...post} />)}
 
-      {posts && posts.length === 0 && Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts}/>)}
+      {posts && posts.length === 0 && Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts[0]}/>)}
 
-      { Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts}/>)}
+      {/* { Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts[0]}/>)} */}
 
     </div>
   );

@@ -24,14 +24,14 @@ interface Post {
   $id?: string;
   // image?: File;
 }
-interface Data {
+export interface Data {
   content: string;
   documentID: string;
   image: File[];
   status: string;
   title: string;
 }
-export default function Postform({ post }: { post: Post }) {
+export default function Postform({ post }: { post?: Post }) {
   // console.log(post);
   const [liveViewData, setLiveViewData] = useState({
     documentID: "",
@@ -48,7 +48,7 @@ export default function Postform({ post }: { post: Post }) {
     setError,
     // getFieldState,
     formState: { isSubmitting, isSubmitSuccessful, errors,  },
-  } = useForm({
+  } = useForm<Data>({
     defaultValues: {
       title: post?.title || "",
       documentID: post?.documentID || "",
@@ -182,7 +182,6 @@ export default function Postform({ post }: { post: Post }) {
           />
           <RTE
             control={control}
-            name="content"
             defaultValue={getValues("content")}
           />
         </div>

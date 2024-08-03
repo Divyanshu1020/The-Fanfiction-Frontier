@@ -31,7 +31,7 @@ const DropdownMenu = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const menuRef = useRef(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const userdata = useSelector((state : RootState)=> state.auth.userData)
   // console.log(userdata);
 
@@ -45,7 +45,7 @@ const DropdownMenu = (): JSX.Element => {
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
       setIsOpen(false);
     }
   };

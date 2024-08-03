@@ -11,7 +11,7 @@ class Author {
         data: { name: string; bio: string }
     ) {
         try {
-            const response = await this.database.createDocument(
+            return await this.database.createDocument(
                 this.collectionId,
                 userId,
                 data
