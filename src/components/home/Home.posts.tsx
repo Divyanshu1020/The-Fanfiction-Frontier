@@ -52,9 +52,9 @@ export default function HomePosts() {
   return (
     <div className=" flex flex-col gap-4 ">
       {/* <Card {...dameData} /> */}
-      {posts && posts.length > 0  && posts.map((post) => <Card key={post.$id} {...post} />)}
+      {posts && posts?.length > 0  && posts.map((post) => <Card key={post.$id} {...post} />)}
 
-      {posts && posts.length === 0 && Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts[0]}/>)}
+      {posts && posts?.length === 0 && Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts[0]}/>)}
 
       {/* { Array.from({ length: 5 }).map((_, i) => <Card key={i} {...posts[0]}/>)} */}
 
