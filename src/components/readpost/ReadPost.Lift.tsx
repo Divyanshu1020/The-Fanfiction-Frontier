@@ -5,14 +5,19 @@ import { Models } from "appwrite";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 // import { MdOutlineBookmarkAdd } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DbLike from "../../appwrite/collections/like";
 import PopUp from "../ui/PopUp";
+import { MdOutlineModeComment } from "react-icons/md";
+import { stat } from "fs";
+import { userLikeThisPost } from "@/redux/post.slice";
 
 export default function ReadPostLift({
   postData,
+  scrollToComments
 }: {
   postData: (CreateNewArticallResponse & Models.Document) | undefined;
+  scrollToComments: React.MutableRefObject<HTMLInputElement | null>;
 }) {
   const [like, setLike] = useState(false);
   const [userLikrOrNot, setUserLikrOrNot] = useState<{
@@ -23,10 +28,12 @@ export default function ReadPostLift({
     isLike: false,
   });
   const [numLikes, setNumLikes] = useState<number>(0);
+  const userLikeThisPostRedux = useSelector((state: RootState) => state.post.userLikesThisPost);
   // const [userSaveOrNot, setUserSaveOrNot] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const dbounceValue = useDebounce(like, 1000);
   const user = useSelector((state: RootState) => state.auth.userData);
+  const dispatch = useDispatch();
   const isInitialRender = useRef(true);
   const closePopup = () => {
     setShowPopup(false);
@@ -71,19 +78,16 @@ export default function ReadPostLift({
         }
       },
     },
-    // {
-    //   Icon: MdOutlineModeComment,
-    //   color: "text-blue-500",
-    //   size: 30,
-    //   text: "Comment",
-    //   num: postData?.comments | 0,
-    //   onclick: () => {
-    //     if (user === null) {
-    //       setShowPopup(true);
-    //     } else {
-    //     }
-    //   },
-    // },
+    {
+      Icon: MdOutlineModeComment,
+      color: "text-blue-500",
+      size: 30,
+      text: "Comment",
+      num: postData?.comments | 0,
+      onclick: () => {
+        scrollToComments.current?.scrollIntoView({ behavior: "smooth" });
+      },
+    },
     // {
     //   Icon: MdOutlineBookmarkAdd,
     //   color: `${userSaveOrNot ? "text-blue-500" : "text-gray-500"}`,
@@ -116,21 +120,28 @@ export default function ReadPostLift({
     }
 
     if (user && postData) {
-      DbLike.checkUserLikeThisOrNot(user.$id, postData?.$id)
-        .then((res) => {
-          if (res) {
-            setUserLikrOrNot(res);
-            setLike(res.isLike);
-          }
-          console.log("First call", res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if(userLikeThisPostRedux === null) {
+        
+        DbLike.checkUserLikeThisOrNot(user.$id, postData?.$id)
+          .then((res) => {
+            if (res) {
+              setUserLikrOrNot(res);
+              setLike(res.isLike);
+              dispatch(userLikeThisPost(res))
+            }
+            console.log("First call", res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }else{
+        setUserLikrOrNot(userLikeThisPostRedux);
+        setLike(userLikeThisPostRedux.isLike);
+      }
 
       // console.log("call Api");
     }
-  }, [postData, user]);
+  }, [dispatch, postData, user, userLikeThisPostRedux]);
 
   return (
     <>
