@@ -9,9 +9,9 @@ import commentDB from "@/appwrite/collections/comments";
 import { RootState } from "@/redux/store";
 import { Models } from "appwrite";
 import parse from "html-react-parser";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import Avatar from "../ui/Avatar";
 import Comments from "../ui/Comments";
 interface Props {

@@ -31,7 +31,7 @@ export default function Comment({
   const [showReplies, setShowReplies] = useState(false);
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false);
   const [levelOneComment, setLeveOneComment] =
-    useState<Comment_Response>(comment);
+    useState<Comment_Response | null>(comment);
   const dispatch = useDispatch();
   // const [Allreplies, setAllReplies] = useState<Comment_Response[]>(replies);
   const userIsLogedIn = useSelector(
@@ -55,7 +55,7 @@ export default function Comment({
         .then((res) => {
           if (res) {
             console.log("SubmitHandler", res);
-            setLeveOneComment((pre) => {
+            setLeveOneComment((pre: any) => {
               return {
                 ...pre,
                 commentsCount: pre.commentsCount + 1,
@@ -79,7 +79,7 @@ export default function Comment({
     if (showReplies === false) {
       const levelTwoComments = await commentDB.getLevelTwoComments(comment.$id);
       if (levelOneComment) {
-        setLeveOneComment((pre) => {
+        setLeveOneComment((pre : any) => {
           return {
             ...pre,
             replies: levelTwoComments,
@@ -91,18 +91,18 @@ export default function Comment({
   const deleteComment = async () => {
     // console.log("object");
 
-    if (userId === levelOneComment.userCommenting?.$id) {
+    if (userId === levelOneComment?.userCommenting?.$id) {
       setLeveOneComment(null);
-      dispatch(deleteCommentRedux(levelOneComment.$id));
+      dispatch(deleteCommentRedux((levelOneComment?.$id as string)));
       // console.log("object");
       // console.log("levelOneComment.$id", levelOneComment.$id);
       // console.log("userId", userId);
-      await commentDB.deleteComment(levelOneComment.$id)
+      await commentDB.deleteComment(levelOneComment?.$id as string)
     }
   };
 
   const newCommentOnCommentAdd = (comment: Comment_Response) => {
-    setLeveOneComment((pre) => {
+    setLeveOneComment((pre : any ) => {
       return {
         ...pre,
         commentsCount: pre.commentsCount + 1,
@@ -246,7 +246,7 @@ const Replies = ({
   postId: string | undefined
   newCommentOnCommentAdd: (comment: Comment_Response) => void
 }) => {
-  const [levelTwoComment, setLevetwoComment] = useState<Comment_Response>(reply);
+  const [levelTwoComment, setLevetwoComment] = useState<Comment_Response | null>(reply);
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false);
   // const dispatch = useDispatch();
 
@@ -259,8 +259,8 @@ const Replies = ({
         .createLevelTwoComment({
           postId: postId as string,
           userCommenting: userId as string,
-          userCommentedOn: levelTwoComment.userCommenting?.$id as string,
-          parentId: levelTwoComment.parentId as string,
+          userCommentedOn: levelTwoComment?.userCommenting?.$id as string,
+          parentId: levelTwoComment?.parentId as string,
           content: data.comment,
         })
         .then((res) => {
@@ -281,7 +281,7 @@ const Replies = ({
   const deleteComment = async () => {
     // console.log("object");
 
-    if (userId === levelTwoComment.userCommenting?.$id) {
+    if (userId === levelTwoComment?.userCommenting?.$id) {
       // console.log("object");
       // console.log("levelTwoComment.$id", levelTwoComment.$id);
       // console.log("userId", userId);

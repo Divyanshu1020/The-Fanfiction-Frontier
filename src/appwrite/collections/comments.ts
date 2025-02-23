@@ -1,5 +1,5 @@
 import config from "@/config/env.config";
-import { Models, Query } from "appwrite";
+import { Query } from "appwrite";
 import { Comment_Data, Comment_Response } from "../appwrite_types";
 import { Database } from "../database";
 

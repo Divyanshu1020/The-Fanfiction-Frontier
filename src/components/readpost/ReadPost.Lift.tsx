@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import DbLike from "../../appwrite/collections/like";
 import PopUp from "../ui/PopUp";
 import { MdOutlineModeComment } from "react-icons/md";
-import { stat } from "fs";
 import { userLikeThisPost } from "@/redux/post.slice";
 
 export default function ReadPostLift({
