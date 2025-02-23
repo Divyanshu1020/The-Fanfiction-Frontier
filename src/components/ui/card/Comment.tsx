@@ -207,7 +207,6 @@ export default function Comment({
         {showReplies &&
           levelOneComment.replies &&
           levelOneComment.replies.map((reply, i) => {
-            console.log("im in repliws");
             return (
               <Replies
                 key={reply.id || i + "levelTwoComment"}

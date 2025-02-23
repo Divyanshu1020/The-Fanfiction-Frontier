@@ -42,4 +42,5 @@ export interface Comment_Response extends Models.Document {
     commentsCount: number;
     likesCount: number;
     replies?: Comment_Response[];
+    userLikeThisComment? : boolean
 }

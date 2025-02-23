@@ -18,6 +18,7 @@ const initialState: PostSlice = {
   postData: null,
   userLikesThisPost: null,
   postReplies: [],
+  // idOfTotalCommentUserLiked: []
 };
 export const postSlice = createSlice({
   name: "post",

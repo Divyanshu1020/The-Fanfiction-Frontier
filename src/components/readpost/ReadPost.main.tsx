@@ -5,7 +5,7 @@ import {
 } from "@/appwrite/appwrite_types";
 import bucket from "@/appwrite/bucket";
 import commentDB from "@/appwrite/collections/comments";
-import { addComments } from "@/redux/post.slice";
+// import { addComments } from "@/redux/post.slice";
 import { RootState } from "@/redux/store";
 import { Models } from "appwrite";
 import parse from "html-react-parser";
@@ -18,11 +18,13 @@ interface Props {
   postData: (CreateNewArticallResponse & Models.Document) | undefined;
   authorData: Author | undefined;
   scrollToComments: React.MutableRefObject<HTMLInputElement | null>;
+  comments: Comment_Response[];
 }
 export default function ReadPostMain({
   postData,
   authorData,
   scrollToComments,
+  comments
 }: Props) {
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState(false);
   // const [newComment, setNewComment] = useState<Comment_Response | undefined>();
@@ -30,33 +32,33 @@ export default function ReadPostMain({
   const userIsLogedIn = useSelector(
     (state: RootState) => state.auth.userStatus
   );
-  const oldComments = useSelector((state: RootState) => state.post.postReplies);
-  console.log("oldComments", oldComments);
+  // console.log("oldComments", oldComments);
   const { register, handleSubmit, setValue } = useForm<{ comment: string }>();
 
-  const [comments, setComments] = useState<Comment_Response[]>([]);
+  const [updatedcomments, setUpdatedComments] = useState<Comment_Response[]>(comments);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  console.log(comments);
-  useEffect(() => {
-    if (oldComments.length > 0) {
-      setComments(oldComments);
-      console.log("we get comments from redux store");
-    } else {
-      const getComments = async () => {
-        await commentDB
-          .getLevelOneComments(postData?.$id as string)
-          .then((response) => {
-            if (response) {
-              setComments(response);
-              dispatch(addComments({ Comments: response }));
-            }
-          });
-      };
-      getComments();
-    }
-  }, []);
+  // console.log(comments);
+  // useEffect(() => {
+  //   if (oldComments.length > 0) {
+  //     setComments(oldComments);
+  //     console.log("we get comments from redux store");
+  //   } else {
+  //     const getComments = async () => {
+  //       console.log("postData", postData?.$id);
+  //       await commentDB
+  //         .getLevelOneComments(postData?.$id as string)
+  //         .then((response) => {
+  //           if (response) {
+  //             setComments(response);
+  //             dispatch(addComments({ Comments: response }));
+  //           }
+  //         });
+  //     };
+  //     getComments();
+  //   }
+  // }, []);
   const onSubmit: SubmitHandler<{ comment: string }> = async (data) => {
     try {
       setSubmitBtnDisabled(true);
@@ -68,7 +70,7 @@ export default function ReadPostMain({
         })
         .then((data) => {
           if (data) {
-            setComments([data, ...comments]);
+            setUpdatedComments([data, ...updatedcomments]);
           }
           setSubmitBtnDisabled(false);
           setValue("comment", "");
@@ -190,7 +192,7 @@ export default function ReadPostMain({
                 </div>
               </form>
             </div>
-            <Comments comments={comments} />
+            <Comments comments={updatedcomments} />
           </section>
         </div>
       </div>
